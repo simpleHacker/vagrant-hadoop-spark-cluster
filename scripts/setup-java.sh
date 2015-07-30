@@ -9,13 +9,13 @@ function installLocalJava {
 
 function installRemoteJava {
 	echo "install open jdk"
-	yum install -y jdk-8u25-linux-i586
+	yum install -y jdk-8u51-linux-x64
 }
 
 function setupJava {
 	echo "setting up java"
 	if resourceExists $JAVA_ARCHIVE; then
-		ln -s /usr/local/jdk1.8.0_25 /usr/local/java
+		ln -s /usr/local/jdk1.8.0_51 /usr/local/java
 	else
 		ln -s /usr/lib/jvm/jre /usr/local/java
 	fi
@@ -24,6 +24,7 @@ function setupJava {
 function setupEnvVars {
 	echo "creating java environment variables"
 	echo export JAVA_HOME=/usr/local/java >> /etc/profile.d/java.sh
+  echo JAVA_HOME=/usr/local/java >> /etc/environment
 	echo export PATH=\${JAVA_HOME}/bin:\${PATH} >> /etc/profile.d/java.sh
 }
 
