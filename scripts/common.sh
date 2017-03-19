@@ -15,6 +15,10 @@ SPARK_ARCHIVE=$SPARK_VERSION-bin-hadoop2.6.tgz
 SPARK_MIRROR_DOWNLOAD=../resources/spark-1.4.1-bin-hadoop2.6.tgz
 SPARK_RES_DIR=/vagrant/resources/spark
 SPARK_CONF_DIR=/usr/local/spark/conf
+#kafka
+KAFKA_VERSION=kafka_2.11-0.10.2.0
+KAFKA_ARCHIVE=$KAFKA_VERSION.tgz
+KAFKA_MIRROR_DOWNLOAD=../resources/kafka/$KAFKA_ARCHIVE
 #ssh
 SSH_RES_DIR=/vagrant/resources/ssh
 RES_SSH_COPYID_ORIGINAL=$SSH_RES_DIR/ssh-copy-id.original

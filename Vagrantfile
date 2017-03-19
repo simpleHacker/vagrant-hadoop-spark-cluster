@@ -31,18 +31,38 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         s.inline = "sudo sed -i '/tty/!s/mesg n/tty -s \\&\\& mesg n/' /root/.profile"
       end
 
+      node.vm.provision "shell", path: "scripts/setup-ubuntu.sh"
+      node.vm.provision "shell" do |s|
+        s.path = "scripts/setup-ubuntu-ssh.sh"
+        s.args = "-t #{numNodes}"
+      end
+      if i == 2
+        node.vm.provision "shell" do |s|
+          s.path = "scripts/setup-ubuntu-ssh.sh"
+          s.args = "-s 3 -t #{numNodes}"
+        end
+      end
+      if i == 1
+        node.vm.provision "shell" do |s|
+          s.path = "scripts/setup-ubuntu-ssh.sh"
+          s.args = "-s 2 -t #{numNodes}"
+        end
+      end
 			node.vm.provision "shell", path: "scripts/setup-java.sh"
 			node.vm.provision "shell", path: "scripts/setup-hadoop.sh"
 			node.vm.provision "shell" do |s|
 				s.path = "scripts/setup-hadoop-slaves.sh"
 				s.args = "-s 3 -t #{numNodes}"
 			end
-			node.vm.provision "shell", path: "scripts/setup-spark.sh"
-			node.vm.provision "shell" do |s|
+			node.vm.provision "spark", type: "shell", path: "scripts/setup-spark.sh"
+			node.vm.provision "spark-slave", type: "shell" do |s|
 				s.path = "scripts/setup-spark-slaves.sh"
 				s.args = "-s 3 -t #{numNodes}"
 			end
-      node.vm.provision "kafka", type: "shell", path: "scripts/setup_kafka.sh"
+      node.vm.provision "kafka", type: "shell" do |s|
+        s.path = "scripts/setup_kafka.sh"
+        s.args = "#{i}"
+      end 
 		end
 	end
 end
