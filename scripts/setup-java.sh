@@ -9,13 +9,13 @@ function installLocalJava {
 
 function installRemoteJava {
 	echo "install open jdk"
-	yum install -y jdk-8u51-linux-x64
+	yum install -y $JAVA_VERSION
 }
 
 function setupJava {
 	echo "setting up java"
 	if resourceExists $JAVA_ARCHIVE; then
-		ln -s /usr/local/jdk1.8.0_51 /usr/local/java
+		ln -s /usr/local/$JAVA_HOME /usr/local/java
 	else
 		ln -s /usr/lib/jvm/jre /usr/local/java
 	fi

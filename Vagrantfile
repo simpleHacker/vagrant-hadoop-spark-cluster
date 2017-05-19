@@ -8,10 +8,11 @@ VAGRANTFILE_API_VERSION = "2"
 DOMAIN = 'local'
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+        config.vm.box_download_insecure=true
 	numNodes = 4
 	r = numNodes..1
 	(r.first).downto(r.last).each do |i|
-		config.vm.define "node-#{i}" do |node|
+		config.vm.define "node#{i}" do |node|
 			node.vm.box = "precise64"
 			node.vm.box_url = "http://files.vagrantup.com/precise64.box"
 			node.vm.provider "virtualbox" do |v|
@@ -33,7 +34,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
       node.vm.provision "shell", path: "scripts/setup-ubuntu.sh"
       node.vm.provision "shell" do |s|
-        s.path = "scripts/setup-ubuntu-ssh.sh"
+        s.path = "scripts/setup-ubuntu-hosts.sh"
         s.args = "-t #{numNodes}"
       end
       if i == 2
@@ -48,17 +49,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           s.args = "-s 2 -t #{numNodes}"
         end
       end
-			node.vm.provision "shell", path: "scripts/setup-java.sh"
-			node.vm.provision "shell", path: "scripts/setup-hadoop.sh"
-			node.vm.provision "shell" do |s|
-				s.path = "scripts/setup-hadoop-slaves.sh"
-				s.args = "-s 3 -t #{numNodes}"
-			end
-			node.vm.provision "spark", type: "shell", path: "scripts/setup-spark.sh"
-			node.vm.provision "spark-slave", type: "shell" do |s|
-				s.path = "scripts/setup-spark-slaves.sh"
-				s.args = "-s 3 -t #{numNodes}"
-			end
+      node.vm.provision "shell", path: "scripts/setup-java.sh"
+      # node.vm.provision "shell", path: "scripts/setup-hadoop.sh"
+      # node.vm.provision "shell" do |s|
+      # s.path = "scripts/setup-hadoop-slaves.sh"
+      # s.args = "-s 3 -t #{numNodes}"
+      # end
+      node.vm.provision "spark", type: "shell", path: "scripts/setup-spark.sh"
+      node.vm.provision "spark-slave", type: "shell" do |s|
+        s.path = "scripts/setup-spark-slaves.sh"
+        s.args = "-s 3 -t #{numNodes}"
+      end
       node.vm.provision "kafka", type: "shell" do |s|
         s.path = "scripts/setup_kafka.sh"
         s.args = "#{i}"

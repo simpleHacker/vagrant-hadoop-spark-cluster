@@ -31,5 +31,5 @@ function setupHosts {
 }
 
 
-echo "setup centos hosts file"
+echo "setup ubuntu hosts file"
 setupHosts
