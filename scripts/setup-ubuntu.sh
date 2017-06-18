@@ -10,10 +10,12 @@ function setupSudoer {
     echo "add vagrant into sudoers"
     echo "vagrant ALL=NOPASSWD:ALL" > /etc/sudoers.d/vagrant
     chmod 0440 /etc/sudoers.d/vagrant
-   # echo "Defaults exempt_group=sudo" >> /etc/sudoers
-   # echo "%sudo ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
-   # echo "vagrant ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
-   # echo "Defaults:vagrant !requiretty" >> /etc/sudoers
+}
+
+function setupLogs {
+    echo "create logs"
+    mkdir /logs
+    chmod 775 /logs
 }
 
 echo "setup ubuntu"
@@ -21,3 +23,6 @@ disableFirewall
 
 echo "setup sudoer"
 setupSudoer
+
+echo "setup logs"
+setupLogs

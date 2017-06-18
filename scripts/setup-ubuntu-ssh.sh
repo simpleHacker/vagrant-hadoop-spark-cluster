@@ -46,8 +46,8 @@ function sshCopyId {
 }
 
 echo "setup ssh"
-echo "setup proxy"
-echo 'Acquire::http::proxy "http://proxy.bloomberg.com:81";' >> /etc/apt/apt.conf
+#echo "setup proxy"
+#echo 'Acquire::http::proxy "URL";' >> /etc/apt/apt.conf
 installSSHPass
 createSSHKey
 overwriteSSHCopyId

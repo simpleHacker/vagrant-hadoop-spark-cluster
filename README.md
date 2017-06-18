@@ -74,8 +74,12 @@ line 32: ```ln -s /usr/local/$SPARK_VERSION-bin-hadoop2.4 /usr/local/spark```
 
 6. /scripts/setup_kafka.sh
 # under testing
-
-# 5. Post Provisioning
+Need to set LOG_DIR in kafka-run-class.sh, or it will default to kafka installing folder, then you have to set permission of that folder for other writing.
+# create topic binding to zookeeper at port 2080 as configured in zookeeper.properties. If  want to change, need to change the port.
+# also take care, the kafka port is at 9290, not 9092!!!
+# setup cluster: http://armourbear.blogspot.com/2015/03/setting-up-multinode-kafka-cluster.html
+ 
+7. Post Provisioning
 After you have provisioned the cluster, you need to run some commands to initialize your Hadoop cluster. SSH into node1 using
 ```vagrant ssh node-1```
 Commands below require root permissions. Change to root access using ```sudo su``` or create a new user and grant permissions if you want to use a non-root access. In such a case, you'll need to do this on VMs.

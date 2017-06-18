@@ -20,6 +20,7 @@ function installKafka {
     installRemoteKafka
   fi
   ln -s /usr/local/$KAFKA_VERSION /usr/local/kafka
+  mkdir /logs/kafka
 }	
 
 function setupEnvVars {
@@ -28,13 +29,10 @@ function setupEnvVars {
 }
 
 function setupConfig {
-  echo "install zookeeper and server config"
-  ZOOKEEPER_CONFIG=zookeeper.properties
-  ZOOKEEPER_FILE=/vagrant/resources/kafka/zookeeper.properties
+  echo "install kafka server config"
   SERVER_CONFIG=server.properties
   SERVER_FILE=/vagrant/resources/kafka/$SERVER_CONFIG
-  cp -f $ZOOKEEPER_FILE /usr/local/kafka/config
-  cp -f $SERVER_FILE.$1 /usr/local/kafka/config
+  cp -f $SERVER_FILE.$1 /usr/local/kafka/config/$SERVER_CONFIG
 }
 
 echo "setup kafka for $1" 
